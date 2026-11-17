@@ -1,0 +1,46 @@
+import { createContext, useContext, useState } from 'react';
+import api from '../api/axios';
+
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const login = async (email, password) => {
+    const res = await api.post('/login', { email, password });
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    setUser(res.data.user);
+    return res.data.user;
+  };
+
+  const register = async (formData) => {
+    const res = await api.post('/register', formData);
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    setUser(res.data.user);
+    return res.data.user;
+  };
+
+  const logout = async () => {
+    try {
+      await api.post('/logout');
+    } catch {
+      // Ignore if token already expired
+    }
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);
