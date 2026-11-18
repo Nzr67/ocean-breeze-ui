@@ -70,7 +70,7 @@ export default function RoomsPage() {
     <div className="container">
       <header className="hero">
         <h1>OceanBreeze Coastal Villas</h1>
-        <p>Handpicked beachfront suites & private villas along the southern coast.</p>
+        <p>Handpicked beachfront suites & private villas along the southern coast</p>
       </header>
 
       {feedback.text && (

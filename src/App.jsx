@@ -14,8 +14,8 @@ function Navbar() {
       <Link to="/" className="brand">OceanBreeze</Link>
       <div className="nav-links">
         <Link to="/">Villas & Rooms</Link>
-        {user && user.role === 'guest' && <Link to="/bookings">My Bookings</Link>}
-        {user && user.role === 'admin' && <Link to="/admin">Admin Dashboard</Link>}
+        {user && user.role?.toLowerCase() === 'guest' && <Link to="/bookings">My Bookings</Link>}
+        {user && user.role?.toLowerCase() === 'admin' && <Link to="/admin">Admin Dashboard</Link>}  
         {user ? (
           <>
             <span className="user-pill">{user.name} ({user.role})</span>
@@ -32,7 +32,7 @@ function Navbar() {
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
-  if (adminOnly && user.role !== 'admin') return <Navigate to="/" replace />;
+  if (adminOnly && user.role?.toLowerCase() !== 'admin') return <Navigate to="/" replace />;
   return children;
 }
 
