@@ -11,14 +11,38 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="brand">OceanBreeze</Link>
+    <Link
+  to="/"
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.65rem',
+    color: '#ffffff',
+    textDecoration: 'none',
+    fontSize: '1.6rem',
+    fontWeight: '800',
+  }}
+>
+  <img
+    src="ob_logo.png"
+    alt="OceanBreeze Logo"
+    style={{
+      width: '40px',
+      height: '40px',
+      borderRadius: '50%',
+      objectFit: 'cover',
+      //border: '2px solid rgba(255, 255, 255, 0.35)',
+    }}
+  />
+  <span>OceanBreeze</span>
+</Link>
       <div className="nav-links">
-        <Link to="/">Villas & Rooms</Link>
+        <Link to="/">View Rooms</Link>
         {user && user.role?.toLowerCase() === 'guest' && <Link to="/bookings">My Bookings</Link>}
         {user && user.role?.toLowerCase() === 'admin' && <Link to="/admin">Admin Dashboard</Link>}  
         {user ? (
           <>
-            <span className="user-pill">{user.name} ({user.role})</span>
+            <span className="user-pill">{user.name}</span>
             <button onClick={logout} className="btn-secondary-sm">Logout</button>
           </>
         ) : (
